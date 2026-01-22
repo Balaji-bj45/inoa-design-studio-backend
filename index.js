@@ -9,7 +9,17 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://inoa-design-studio-backend-2.onrender.com"
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
+
+// IMPORTANT: handle preflight requests
+app.options("*", cors());
 
 // Email Sending Route
 app.post("/send-email", async (req, res) => {
