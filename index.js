@@ -12,14 +12,13 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://inoa-design-studio-backend-2.onrender.com"
+   "https://inoadesignstudio.netlify.app/",
   ],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
 
-// IMPORTANT: handle preflight requests
-app.options("*", cors());
+
 
 // Email Sending Route
 app.post("/send-email", async (req, res) => {
