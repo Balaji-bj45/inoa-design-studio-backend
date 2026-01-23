@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     
-   "https://inoadesignstudio.com/",
+   "https://inoadesignstudio.com",
    "http://localhost:5173",
   ],
   methods: ["GET", "POST", "OPTIONS"],
