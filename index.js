@@ -5,19 +5,28 @@ require("dotenv").config();
 
 const app = express();
 
-// Middleware
 app.use(express.json());
+
+const allowedOrigins = [
+  "https://inoadesignstudio.com",
+  "http://localhost:5173",
+];
 
 app.use(
   cors({
-    origin: [
-      "https://inoadesignstudio.com",
-      "http://localhost:5173",
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
+    credentials: true,
   })
 );
+
+// ✅ FIX PRE-FLIGHT
+app.options("*", cors());
 
 // ✅ Test route
 app.get("/", (req, res) => {
@@ -89,7 +98,6 @@ app.post("/send-email", async (req, res) => {
             <div style="margin-top: 40px; text-align: center;">
               <a href="mailto:${email}" style="background-color: #0a0a0a; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 2px; font-size: 14px; font-weight: 500;">Reply to Client</a>
             </div>
-
           </td>
         </tr>
       </table>
@@ -114,5 +122,4 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-// ✅ VERY IMPORTANT
 module.exports = app;
